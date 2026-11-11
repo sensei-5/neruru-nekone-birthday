@@ -1,0 +1,6 @@
+*.csv
+# 內部規劃文件與沒用到的原圖，不要放上網站
+CODEX_PLAN.md
+CRYPT_PLAN.md
+sheep.png
+Q.png

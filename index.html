@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>捏嚕嚕的生日墓園</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%230b0710'/%3E%3Cpath fill='%23c9a24a' d='M17 4h6v10h10v6H23v16h-6V20H7v-6h10z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap">
+  <link rel="stylesheet" href="style.css?v=24">
+</head>
+<body>
+  <!-- 背景：靜態景物（scenery.js）+ 飄來飄去的幽靈 -->
+  <div class="world" aria-hidden="true">
+    <canvas class="bg" id="bg"></canvas>
+    <canvas class="particles" id="particles"></canvas>
+  </div>
+
+  <!-- 右上角：背景音樂開關與音量 -->
+  <div class="controls">
+    <button type="button" class="music-btn" id="musicBtn" aria-pressed="true">
+      <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+      <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/><path d="M3 3l18 18"/></svg>
+      <span id="musicLabel">音樂</span>
+    </button>
+    <input type="range" class="music-vol" id="musicVol" min="0" max="1" step="0.05" value="0.6" aria-label="音樂音量">
+  </div>
+
+  <main class="stage" id="stage">
+    <!-- 台座頂面與棺材底部對齊 -->
+    <div class="altar" id="altar" aria-hidden="true"></div>
+
+    <header class="greet" id="greet">
+      <h1 class="greet-title" id="greetTitle"><span class="nowrap">捏嚕嚕</span> <span class="nowrap">生日快樂</span></h1>
+      <p class="greet-hint" id="hint">把問卷當作祭品，放進棺材裡</p>
+    </header>
+
+    <!-- 守墓的小羊（裝飾） -->
+    <div class="sheep" id="sheep" aria-hidden="true">
+      <span class="sheep-shadow"></span>
+      <img src="sheep-sm.png" alt="" width="480" height="480" decoding="async">
+    </div>
+
+    <!-- 十字架棺材：所有尺寸都用 em，打開後只改 font-size 就能整個縮小 -->
+    <div class="offering" id="offering" data-state="empty">
+      <div class="ob-inner" id="obInner">
+        <span class="ob-shadow"></span>
+        <svg class="ob-art" viewBox="0 0 200 260" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c3a2c"/><stop offset=".6" stop-color="#34201a"/><stop offset="1" stop-color="#1d110e"/></linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46291f"/><stop offset=".5" stop-color="#2b1913"/><stop offset="1" stop-color="#190e0b"/></linearGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dfae"/><stop offset=".45" stop-color="#b8913f"/><stop offset="1" stop-color="#6b4f1c"/></linearGradient>
+    <radialGradient id="stud" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff3c8"/><stop offset=".5" stop-color="#b8913f"/><stop offset="1" stop-color="#4a3512"/></radialGradient>
+    <radialGradient id="vig" cx=".5" cy=".45" r=".75"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".35" stop-color="#fff" stop-opacity=".04"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1"><stop offset=".3" stop-color="#ffb35c" stop-opacity="0"/><stop offset="1" stop-color="#ffb35c" stop-opacity=".7"/></linearGradient>
+    <radialGradient id="halo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".65"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <filter id="grain" filterUnits="userSpaceOnUse" x="-10" y="-10" width="220" height="290">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .55" numOctaves="3" seed="5" result="t"/>
+      <feColorMatrix in="t" type="matrix" values="0 0 0 0 .15  0 0 0 0 .08  0 0 0 0 .04  0 0 0 1.1 -.25" result="g"/>
+      <feComposite in="g" in2="SourceAlpha" operator="in" result="gc"/>
+      <feBlend in="SourceGraphic" in2="gc" mode="multiply"/>
+    </filter>
+    <clipPath id="outerClip"><polygon points="64,0 136,0 200,62.4 152,260 48,260 0,62.4"/></clipPath>
+  </defs>
+  <!-- 背後暗影與地面接觸影 -->
+  <ellipse cx="100" cy="130" rx="130" ry="170" fill="url(#halo)" opacity=".7"/>
+  <!-- 棺腳 -->
+  <rect x="52" y="256" width="26" height="9" rx="2" fill="#1a0f0b" stroke="#050308" stroke-width="1.2"/>
+  <rect x="122" y="256" width="26" height="9" rx="2" fill="#1a0f0b" stroke="#050308" stroke-width="1.2"/>
+  <!-- 棺身：木紋底 -->
+  <polygon points="64,0 136,0 200,62.4 152,260 48,260 0,62.4" fill="url(#wood)" filter="url(#grain)"/>
+  <polygon points="64,0 136,0 131.9,10 68.1,10" fill="#956242" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="136,0 200,62.4 188.9,65.6 131.9,10" fill="#744b33" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="200,62.4 152,260 144.1,250 188.9,65.6" fill="#352118" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="152,260 48,260 55.9,250 144.1,250" fill="#20130e" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="48,260 0,62.4 11.1,65.6 55.9,250" fill="#64412c" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="0,62.4 64,0 68.1,10 11.1,65.6" fill="#956242" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/>
+  <polygon points="68.1,10 131.9,10 188.9,65.6 144.1,250 55.9,250 11.1,65.6" fill="url(#panel)" filter="url(#grain)"/>
+  <polygon points="68.1,10 131.9,10 129.1,17 70.9,17" fill="#150c0a" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="131.9,10 188.9,65.6 181.2,67.8 129.1,17" fill="#2d1c14" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="188.9,65.6 144.1,250 138.6,243 181.2,67.8" fill="#5a3a28" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="144.1,250 55.9,250 61.4,243 138.6,243" fill="#69442e" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="55.9,250 11.1,65.6 18.8,67.8 61.4,243" fill="#382319" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/><polygon points="11.1,65.6 68.1,10 70.9,17 18.8,67.8" fill="#150c09" stroke="#050308" stroke-opacity=".55" stroke-width=".6" stroke-linejoin="round"/>
+  <polygon points="70.9,17 129.1,17 181.2,67.8 138.6,243 61.4,243 18.8,67.8" fill="url(#panel)" filter="url(#grain)"/>
+  <polygon points="70.9,17 129.1,17 181.2,67.8 138.6,243 61.4,243 18.8,67.8" fill="url(#vig)"/>
+  <polygon points="73.4,23 126.6,23 174.6,69.7 133.9,237 66.1,237 25.4,69.7" fill="none" stroke="#b8913f" stroke-opacity=".5" stroke-width=".9"/>
+  <polygon points="64,0 136,0 200,62.4 152,260 48,260 0,62.4" fill="none" stroke="#050308" stroke-width="2.2" stroke-linejoin="round"/>
+  <!-- 上緣的高光線 -->
+  <polyline points="0,62.4 64,0 136,0 200,62.4" fill="none" stroke="#ffd9a8" stroke-opacity=".4" stroke-width="1" transform="translate(0 .9)"/>
+  <!-- 燭光的暖色邊緣光（兩側下半） -->
+  <polyline points="0,62.4 48,260" fill="none" stroke="url(#rim)" stroke-width="2.4" transform="translate(1.4 0)"/>
+  <polyline points="200,62.4 152,260" fill="none" stroke="url(#rim)" stroke-width="2.4" transform="translate(-1.4 0)"/>
+  <!-- 投入口的黃銅板 -->
+  <rect x="66" y="7" width="68" height="20" rx="4" fill="url(#brass)" stroke="#050308" stroke-width="1.3"/>
+  <rect x="73" y="14.5" width="54" height="5" rx="2.5" fill="#0a0507" stroke="#050308" stroke-width=".8"/>
+  <circle cx="70" cy="17" r="1.6" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><circle cx="130" cy="17" r="1.6" fill="url(#stud)" stroke="#050308" stroke-width=".9"/>
+  <!-- 包角、提把、鉚釘 -->
+  <polygon points="64,0 51.8,11.9 68.5,11 81,0" fill="url(#brass)" stroke="#050308" stroke-width="1.2" stroke-linejoin="round"/><polygon points="64,0 51.8,11.9 68.5,11 81,0" fill="none" stroke="#fff3c8" stroke-opacity=".35" stroke-width=".6" transform="translate(-.4 -.4)"/><circle cx="66.3" cy="5.7" r="2.3" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><polygon points="136,0 119,0 131.5,11 148.2,11.9" fill="url(#brass)" stroke="#050308" stroke-width="1.2" stroke-linejoin="round"/><polygon points="136,0 119,0 131.5,11 148.2,11.9" fill="none" stroke="#fff3c8" stroke-opacity=".35" stroke-width=".6" transform="translate(-.4 -.4)"/><circle cx="133.7" cy="5.7" r="2.3" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><polygon points="200,62.4 187.8,50.5 187.8,65.9 196,78.9" fill="url(#brass)" stroke="#050308" stroke-width="1.2" stroke-linejoin="round"/><polygon points="200,62.4 187.8,50.5 187.8,65.9 196,78.9" fill="none" stroke="#fff3c8" stroke-opacity=".35" stroke-width=".6" transform="translate(-.4 -.4)"/><circle cx="192.9" cy="64.4" r="2.3" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><polygon points="152,260 156,243.5 143.4,249 135,260" fill="url(#brass)" stroke="#050308" stroke-width="1.2" stroke-linejoin="round"/><polygon points="152,260 156,243.5 143.4,249 135,260" fill="none" stroke="#fff3c8" stroke-opacity=".35" stroke-width=".6" transform="translate(-.4 -.4)"/><circle cx="146.6" cy="253.1" r="2.3" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><polygon points="48,260 65,260 56.6,249 44,243.5" fill="url(#brass)" stroke="#050308" stroke-width="1.2" stroke-linejoin="round"/><polygon points="48,260 65,260 56.6,249 44,243.5" fill="none" stroke="#fff3c8" stroke-opacity=".35" stroke-width=".6" transform="translate(-.4 -.4)"/><circle cx="53.4" cy="253.1" r="2.3" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><polygon points="0,62.4 4,78.9 12.2,65.9 12.2,50.5" fill="url(#brass)" stroke="#050308" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,62.4 4,78.9 12.2,65.9 12.2,50.5" fill="none" stroke="#fff3c8" stroke-opacity=".35" stroke-width=".6" transform="translate(-.4 -.4)"/><circle cx="7.1" cy="64.4" r="2.3" fill="url(#stud)" stroke="#050308" stroke-width=".9"/>
+  <g transform="translate(22 161.2) rotate(-13.7)"><rect x="-9" y="-3.4" width="18" height="6.8" rx="3.2" fill="url(#brass)" stroke="#050308" stroke-width="1.1"/><circle cx="-5.4" cy="0" r="1.6" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><circle cx="5.4" cy="0" r="1.6" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><path d="M-6 3.2 Q0 15 6 3.2" fill="none" stroke="#050308" stroke-width="4.2" stroke-linecap="round"/><path d="M-6 3.2 Q0 15 6 3.2" fill="none" stroke="#9c8a63" stroke-width="2.2" stroke-linecap="round"/><path d="M-5 4 Q0 12 5 4" fill="none" stroke="#fff3c8" stroke-opacity=".5" stroke-width=".7"/></g><g transform="translate(178 161.2) rotate(13.7)"><rect x="-9" y="-3.4" width="18" height="6.8" rx="3.2" fill="url(#brass)" stroke="#050308" stroke-width="1.1"/><circle cx="-5.4" cy="0" r="1.6" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><circle cx="5.4" cy="0" r="1.6" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><path d="M-6 3.2 Q0 15 6 3.2" fill="none" stroke="#050308" stroke-width="4.2" stroke-linecap="round"/><path d="M-6 3.2 Q0 15 6 3.2" fill="none" stroke="#9c8a63" stroke-width="2.2" stroke-linecap="round"/><path d="M-5 4 Q0 12 5 4" fill="none" stroke="#fff3c8" stroke-opacity=".5" stroke-width=".7"/></g>
+  <circle cx="50" cy="238" r="1.9" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><circle cx="150" cy="238" r="1.9" fill="url(#stud)" stroke="#050308" stroke-width=".9"/><circle cx="100" cy="250" r="1.9" fill="url(#stud)" stroke="#050308" stroke-width=".9"/>
+  <!-- 整體的柔和反光 -->
+  <polygon points="64,0 136,0 200,62.4 152,260 48,260 0,62.4" fill="url(#gloss)"/>
+</svg>
+        <div class="ob-body">
+          <div class="ob-face">
+            <span class="ob-slot" id="obSlot"></span>
+            <div class="ob-plate">祭品</div>
+            <div class="ob-door-frame" id="doorFrame">
+              <div class="ob-inside"><span class="ob-coins"></span><span class="ob-slip"></span><span class="ob-slip"></span><span class="ob-slip"></span></div>
+              <button class="ob-doors" id="door" type="button" aria-label="導入問卷（點擊選擇 CSV 檔）">
+                <span class="ob-leaf ob-leaf-l"></span><span class="ob-leaf ob-leaf-r"></span>
+              </button>
+              <button class="ob-import" id="importBtn" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 14v4.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V14"/></svg>
+                <span id="importLabel">導入問卷</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".csv,text/csv" hidden>
+
+    <!-- 前景：鐵鏈、蜘蛛網、燭火與近景幽靈（卡片後面） -->
+    <canvas class="front" id="front" aria-hidden="true"></canvas>
+
+    <!-- 問卷卡片 -->
+    <section class="viewer" id="viewer" hidden aria-label="問卷">
+      <div class="card-slot" id="cardSlot" aria-live="polite"></div>
+      <nav class="card-nav" id="cardNav">
+        <button class="nav-btn" id="prevBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6"/></svg><span>前一張</span></button>
+        <span class="counter" id="counter"></span>
+        <button class="nav-btn" id="nextBtn" type="button"><span>下一張</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
+      </nav>
+    </section>
+  </main>
+
+  <!-- 大家的祝福：所有人的墓碑立成一面牆（結尾卡片「看大家的祝福」） -->
+  <section class="board" id="board" aria-label="大家的祝福" hidden>
+    <header class="board-head">
+      <h2 class="board-title" id="boardTitle">大家的祝福</h2>
+      <p class="board-count" id="boardCount"></p>
+    </header>
+    <div class="board-wall" id="boardWall"></div>
+    <div class="board-actions">
+      <button class="board-btn" id="boardSave" type="button">保存成圖片</button>
+      <button class="board-btn ghost" id="boardBack" type="button">回到結尾</button>
+    </div>
+
+    <!-- 點開單塊墓碑 -->
+    <div class="ema-zoom" id="emaZoom" role="dialog" aria-modal="true" aria-label="祝福" hidden>
+      <button class="zoom-nav" id="zoomPrev" type="button" aria-label="上一則"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="zoom-card" id="zoomCard">
+        <p class="zoom-name" id="zoomName"></p>
+        <p class="zoom-text" id="zoomText"></p>
+        <div class="zoom-foot">
+          <span class="zoom-pos" id="zoomPos"></span>
+          <button class="zoom-close" id="zoomClose" type="button">關閉</button>
+        </div>
+      </div>
+      <button class="zoom-nav" id="zoomNext" type="button" aria-label="下一則"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </section>
+
+  <div class="drop-hint" id="dropHint" hidden><p>放開，把問卷放進棺材</p></div>
+
+  <script src="scenery.js?v=24"></script>
+  <script src="audio.js?v=24"></script>
+  <script src="main.js?v=24"></script>
+  <script src="board.js?v=24"></script>
+</body>
+</html>
