@@ -37,7 +37,7 @@ const Scenery = (() => {
     g.beginPath(); g.arc(cx,wy,radius*.08,0,TAU); g.fillStyle='#ffd98a'; g.fill();
     for(const scale of [1.02,1.12,1.2]) { g.beginPath(); g.arc(cx,wy,radius*scale,0,TAU); g.strokeStyle=scale===1.12?'#3c3336':'#171219'; g.lineWidth=2; g.stroke(); }
     for(const side of [-1,1]) {
-      const x=cx+side*Math.min(aw*.8,W*.32), y=wy+radius*.6;
+      const x=cx+side*u*15, y=wy+radius*.6; // 窗在棺材與壁燈（±23u）之間，不和旗子、燭台排成一直線
       arch(g,x,y,3*u,12*u); g.fillStyle='#382126'; g.fill(); g.strokeStyle='#050308'; g.lineWidth=2; g.stroke();
       g.strokeStyle='#8a683c'; g.lineWidth=1; g.beginPath(); g.moveTo(x,y+u); g.lineTo(x,y+12*u); g.moveTo(x-u,y+6*u); g.lineTo(x+u,y+6*u); g.stroke();
     }
@@ -312,11 +312,6 @@ const Scenery = (() => {
       const wd = W * .125, hd = H * .1;
       sarcophagus(g, W * .012, H * .82, wd, hd, -1);
       sarcophagus(g, W * .988 - wd, H * .82, wd, hd, 1);
-      for (const [dx, dy, s] of [[-.3, .87, 1], [-.43, .94, .8], [.5, .965, .85]]) rose(g, cx + aw * dx, H * dy, u * .75 * s);
-      for (let i = 0; i < 18; i++) {
-        const y = floor + (H - floor) * (.35 + random() * .6), x = cx + (random() - .5) * aw * (.5 + (y - floor) / (H - floor) * .7);
-        g.fillStyle = random() < .5 ? 'rgba(90,12,30,.75)' : 'rgba(26,5,10,.85)'; g.beginPath(); g.ellipse(x, y, u * .35, u * .17, random() * 3, 0, TAU); g.fill();
-      }
     }
     /* ---------- 台座與台階：棺材站在石砌台座上；三級階梯往外加寬；紅地毯沿階梯爬上來，到棺材腳邊就結束 ---------- */
     function dais() {
