@@ -4,7 +4,7 @@ const Scenery = (() => {
   const TAU = Math.PI * 2;
   function glow(g, x, y, radius, color) {
     const fill = g.createRadialGradient(x, y, 0, x, y, radius);
-    fill.addColorStop(0, color); fill.addColorStop(1, 'rgba(255,179,92,0)');
+    fill.addColorStop(0, color); fill.addColorStop(1, 'rgba(123,168,224,0)');
     g.fillStyle = fill; g.fillRect(x - radius, y - radius, radius * 2, radius * 2);
   }
   function arch(g, x, y, w, h) {
@@ -19,13 +19,13 @@ const Scenery = (() => {
     const wall = g.createLinearGradient(0,0,0,H); wall.addColorStop(0,'#0b080f'); wall.addColorStop(.7,'#1a1420'); wall.addColorStop(1,'#07050a');
     g.fillStyle = wall; g.fillRect(0,0,W,H);
     for (let y=0,row=0;y<floor;y+=3*u,row++) for(let x=-(row%2)*5*u;x<W;x+=10*u) {
-      g.fillStyle=`rgba(185,169,143,${.015+random()*.035})`; g.fillRect(x+1,y+1,10*u-2,3*u-2);
+      g.fillStyle=`rgba(145,164,183,${.015+random()*.035})`; g.fillRect(x+1,y+1,10*u-2,3*u-2);
     }
-    const wy=H*.36, radius=Math.min(8*u,H*.145), colors=['#7a0f2a','#865127','#25283e','#18382d'];
-    g.save(); g.globalCompositeOperation='lighter'; glow(g,cx,wy,radius*1.7,'rgba(185,90,50,.19)'); g.restore();
+    const wy=H*.36, radius=Math.min(8*u,H*.145), colors=['#2b3fa0','#2f86a8','#5a35a3','#1f7a73'];
+    g.save(); g.globalCompositeOperation='lighter'; glow(g,cx,wy,radius*1.7,'rgba(57,93,178,.19)'); g.restore();
     for(let ring=1;ring<=3;ring++) for(let i=0;i<16;i++) {
       const a=i*TAU/16,b=(i+1)*TAU/16, fill=g.createRadialGradient(cx,wy,0,cx,wy,radius);
-      fill.addColorStop(0,'#e2c78a'); fill.addColorStop(.25,colors[(i+ring)%4]); fill.addColorStop(1,'#140b12');
+      fill.addColorStop(0,'#8eb9de'); fill.addColorStop(.25,colors[(i+ring)%4]); fill.addColorStop(1,'#140b12');
       g.beginPath(); g.arc(cx,wy,radius*ring/3,a,b); g.arc(cx,wy,radius*(ring-1)/3,b,a,true); g.closePath(); g.fillStyle=fill; g.fill(); g.strokeStyle='#050308'; g.lineWidth=1.5; g.stroke();
     }
     // 窗櫺：放射石條、八個小圓窗與中央花心，讓它看起來是雕花彩窗而不是色盤
@@ -33,18 +33,18 @@ const Scenery = (() => {
     for(let i=0;i<16;i++){ const a=i*TAU/16; g.beginPath(); g.moveTo(cx+Math.cos(a)*radius*.2,wy+Math.sin(a)*radius*.2); g.lineTo(cx+Math.cos(a)*radius,wy+Math.sin(a)*radius); g.stroke(); }
     for(let i=0;i<8;i++){ const a=(i+.5)*TAU/8, px=cx+Math.cos(a)*radius*.64, py=wy+Math.sin(a)*radius*.64;
       g.beginPath(); g.arc(px,py,radius*.13,0,TAU); g.fillStyle=colors[i%4]; g.fill(); g.lineWidth=Math.max(2,u*.18); g.strokeStyle='#120d14'; g.stroke(); }
-    g.beginPath(); g.arc(cx,wy,radius*.19,0,TAU); g.fillStyle='#b8913f'; g.fill(); g.strokeStyle='#120d14'; g.lineWidth=Math.max(2,u*.2); g.stroke();
-    g.beginPath(); g.arc(cx,wy,radius*.08,0,TAU); g.fillStyle='#ffd98a'; g.fill();
+    g.beginPath(); g.arc(cx,wy,radius*.19,0,TAU); g.fillStyle='#457fb2'; g.fill(); g.strokeStyle='#120d14'; g.lineWidth=Math.max(2,u*.2); g.stroke();
+    g.beginPath(); g.arc(cx,wy,radius*.08,0,TAU); g.fillStyle='#a0c7e9'; g.fill();
     for(const scale of [1.02,1.12,1.2]) { g.beginPath(); g.arc(cx,wy,radius*scale,0,TAU); g.strokeStyle=scale===1.12?'#3c3336':'#171219'; g.lineWidth=2; g.stroke(); }
     for(const side of [-1,1]) {
       const x=cx+side*u*15, y=wy+radius*.6; // 窗在棺材與壁燈（±23u）之間，不和旗子、燭台排成一直線
-      arch(g,x,y,3*u,12*u); g.fillStyle='#382126'; g.fill(); g.strokeStyle='#050308'; g.lineWidth=2; g.stroke();
-      g.strokeStyle='#8a683c'; g.lineWidth=1; g.beginPath(); g.moveTo(x,y+u); g.lineTo(x,y+12*u); g.moveTo(x-u,y+6*u); g.lineTo(x+u,y+6*u); g.stroke();
+      arch(g,x,y,3*u,12*u); g.fillStyle='#222537'; g.fill(); g.strokeStyle='#050308'; g.lineWidth=2; g.stroke();
+      g.strokeStyle='#406086'; g.lineWidth=1; g.beginPath(); g.moveTo(x,y+u); g.lineTo(x,y+12*u); g.moveTo(x-u,y+6*u); g.lineTo(x+u,y+6*u); g.stroke();
     }
     g.save(); g.filter=`blur(${u*.6}px)`;
     for(let i=0;i<4;i++) {
       const x=cx+(i-1.5)*radius*.45, beam=g.createLinearGradient(x,wy,cx,top);
-      beam.addColorStop(0,i%2?'rgba(150,60,90,.06)':'rgba(255,180,110,.10)'); beam.addColorStop(1,'rgba(255,180,110,0)');
+      beam.addColorStop(0,i%2?'rgba(64,75,146,.06)':'rgba(138,174,227,.10)'); beam.addColorStop(1,'rgba(138,174,227,0)');
       g.beginPath(); g.moveTo(x,wy); g.lineTo(x+u,wy); g.lineTo(cx+(i-1)*aw*.25,top+5*u); g.lineTo(cx+(i-2)*aw*.25,top+5*u); g.closePath(); g.fillStyle=beam; g.fill();
     } g.restore();
     for(const side of [-1,1]) for(let depth=2;depth>=0;depth--) {
@@ -59,16 +59,16 @@ const Scenery = (() => {
     }
     wallProps();
     const paving=g.createLinearGradient(0,floor,0,H); paving.addColorStop(0,'#100c14'); paving.addColorStop(1,'#302831'); g.fillStyle=paving; g.fillRect(0,floor,W,H-floor);
-    g.strokeStyle='rgba(185,169,143,.09)'; g.lineWidth=1;
+    g.strokeStyle='rgba(145,164,183,.09)'; g.lineWidth=1;
     for(let i=-8;i<=8;i++) { g.beginPath(); g.moveTo(cx+i*u*2,floor); g.lineTo(cx+i*u*18,H); g.stroke(); }
     for(let i=0;i<9;i++) { const y=floor+(H-floor)*(i/8)**2; g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
-    glow(g,cx,top+2*u,aw,'rgba(255,179,92,.10)');
+    glow(g,cx,top+2*u,aw,'rgba(123,168,224,.10)');
     dais();
     floorProps();
     plinths();
     function candle(x,base,height) {
-      const width=u*.55,wax=g.createLinearGradient(x-width,0,x+width,0); wax.addColorStop(0,'#6d5640'); wax.addColorStop(.5,'#d9c5a0'); wax.addColorStop(1,'#8a7153');
-      g.fillStyle=wax; g.beginPath(); g.ellipse(x,base,width,u*.16,0,0,TAU); g.fill(); g.fillRect(x-width/2,base-height,width,height); g.fillStyle='#ece3d0'; g.fillRect(x-width/2,base-height,width*.18,height*.4); candles.push({x,y:base-height,phase:random()*TAU,s:1});
+      const width=u*.55,wax=g.createLinearGradient(x-width,0,x+width,0); wax.addColorStop(0,'#42536b'); wax.addColorStop(.5,'#a3bdd6'); wax.addColorStop(1,'#566c87');
+      g.fillStyle=wax; g.beginPath(); g.ellipse(x,base,width,u*.16,0,0,TAU); g.fill(); g.fillRect(x-width/2,base-height,width,height); g.fillStyle='#d1dfeb'; g.fillRect(x-width/2,base-height,width*.18,height*.4); candles.push({x,y:base-height,phase:random()*TAU,s:1});
     }
     for(const side of [-1,1]) {
       const x=cx+side*aw*.8,base=top+5*u;
@@ -80,7 +80,7 @@ const Scenery = (() => {
         candle(x,t.y+(random()-.5)*u*.4,h);
       }
     }
-    const mist=g.createLinearGradient(0,top-u,0,top+8*u); mist.addColorStop(0,'rgba(185,169,143,0)'); mist.addColorStop(.5,'rgba(185,169,143,.035)'); mist.addColorStop(1,'rgba(185,169,143,0)'); g.fillStyle=mist; g.fillRect(0,top-u,W,9*u); lightingPass();
+    const mist=g.createLinearGradient(0,top-u,0,top+8*u); mist.addColorStop(0,'rgba(145,164,183,0)'); mist.addColorStop(.5,'rgba(145,164,183,.035)'); mist.addColorStop(1,'rgba(145,164,183,0)'); g.fillStyle=mist; g.fillRect(0,top-u,W,9*u); lightingPass();
     /* ---------- 哥德陳設 v2：受光、顆粒、陰影，去掉粗黑描邊；最後用一層「光照遮罩」把所有東西統一在燭光與彩窗之下 ---------- */
     function flame(x, y, s) { candles.push({ x, y, phase: random() * TAU, s }); }
     // 柔和的接觸陰影（貼地／貼牆）
@@ -89,7 +89,7 @@ const Scenery = (() => {
     }
     function grain(g, x, y, w, h, n, a, sz) {
       for (let i = 0; i < n; i++) {
-        g.fillStyle = random() < .5 ? `rgba(255,240,220,${a * random()})` : `rgba(0,0,0,${a * 1.7 * random()})`;
+        g.fillStyle = random() < .5 ? `rgba(227,237,248,${a * random()})` : `rgba(0,0,0,${a * 1.7 * random()})`;
         g.fillRect(x + random() * w, y + random() * h, sz * (1 + random() * 1.6), sz * (1 + random() * 1.6));
       }
     }
@@ -98,31 +98,31 @@ const Scenery = (() => {
       const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, c0); gr.addColorStop(1, c1);
       g.fillStyle = gr; g.fillRect(x, y, w, h);
       grain(g, x, y, w, h, Math.floor(w * h * k * k / 70), .08, 1 / k);
-      const hi = g.createLinearGradient(x, y, x + w * .55, y); hi.addColorStop(0, 'rgba(255,235,210,.13)'); hi.addColorStop(1, 'rgba(255,235,210,0)');
+      const hi = g.createLinearGradient(x, y, x + w * .55, y); hi.addColorStop(0, 'rgba(219,231,246,.13)'); hi.addColorStop(1, 'rgba(219,231,246,0)');
       g.fillStyle = hi; g.fillRect(x, y, w, h);
       const lo = g.createLinearGradient(0, y + h * .45, 0, y + h); lo.addColorStop(0, 'rgba(0,0,0,0)'); lo.addColorStop(1, 'rgba(0,0,0,.4)');
       g.fillStyle = lo; g.fillRect(x, y, w, h);
     }
     function skull(g, x, y, s, a) {
       g.save(); g.globalAlpha = a; g.translate(x, y); g.rotate((random() - .5) * .55);
-      const t = random(), c0 = t < .33 ? '#d8ccae' : t < .66 ? '#bfb394' : '#a89c7e';
+      const t = random(), c0 = t < .33 ? '#b0c5d6' : t < .66 ? '#96acbd' : '#8095a6';
       g.fillStyle = 'rgba(0,0,0,.5)'; g.beginPath(); g.ellipse(s * .05, s * .1, s * .56, s * .52, 0, 0, TAU); g.fill();
-      const cr = g.createRadialGradient(-s * .16, -s * .22, s * .04, 0, 0, s * .6); cr.addColorStop(0, c0); cr.addColorStop(.7, '#7d7258'); cr.addColorStop(1, '#3d3629');
+      const cr = g.createRadialGradient(-s * .16, -s * .22, s * .04, 0, 0, s * .6); cr.addColorStop(0, c0); cr.addColorStop(.7, '#5a6c7b'); cr.addColorStop(1, '#2a333c');
       g.fillStyle = cr; g.beginPath(); g.ellipse(0, 0, s * .5, s * .47, 0, 0, TAU); g.fill();
-      const jw = g.createLinearGradient(0, s * .3, 0, s * .6); jw.addColorStop(0, '#8a7f64'); jw.addColorStop(1, '#4a4231');
+      const jw = g.createLinearGradient(0, s * .3, 0, s * .6); jw.addColorStop(0, '#667988'); jw.addColorStop(1, '#323e49');
       g.fillStyle = jw; g.beginPath(); g.moveTo(-s * .27, s * .3); g.lineTo(s * .27, s * .3); g.lineTo(s * .2, s * .58); g.lineTo(-s * .2, s * .58); g.closePath(); g.fill();
       for (const sx of [-1, 1]) {
-        const ey = g.createRadialGradient(sx * s * .19, 0, 0, sx * s * .19, 0, s * .17); ey.addColorStop(0, '#030203'); ey.addColorStop(.7, 'rgba(8,5,4,.95)'); ey.addColorStop(1, 'rgba(30,24,16,0)');
+        const ey = g.createRadialGradient(sx * s * .19, 0, 0, sx * s * .19, 0, s * .17); ey.addColorStop(0, '#030203'); ey.addColorStop(.7, 'rgba(4,5,8,.95)'); ey.addColorStop(1, 'rgba(17,23,29,0)');
         g.fillStyle = ey; g.beginPath(); g.ellipse(sx * s * .19, 0, s * .17, s * .19, 0, 0, TAU); g.fill();
       }
-      g.fillStyle = 'rgba(5,3,3,.9)'; g.beginPath(); g.moveTo(0, s * .1); g.lineTo(-s * .07, s * .27); g.lineTo(s * .07, s * .27); g.closePath(); g.fill();
-      g.fillStyle = 'rgba(224,214,188,.75)'; for (let i = -2; i <= 2; i++) g.fillRect(i * s * .09 - s * .035, s * .36, s * .06, s * .13);
+      g.fillStyle = 'rgba(3,3,5,.9)'; g.beginPath(); g.moveTo(0, s * .1); g.lineTo(-s * .07, s * .27); g.lineTo(s * .07, s * .27); g.closePath(); g.fill();
+      g.fillStyle = 'rgba(190,208,222,.75)'; for (let i = -2; i <= 2; i++) g.fillRect(i * s * .09 - s * .035, s * .36, s * .06, s * .13);
       g.restore();
     }
     function bone(g, x, y, len, ang, a) {
       g.save(); g.translate(x, y); g.rotate(ang); g.globalAlpha = a;
       g.fillStyle = 'rgba(0,0,0,.4)'; g.beginPath(); g.ellipse(len * .03, len * .05, len * .5, len * .05, 0, 0, TAU); g.fill();
-      const sh = g.createLinearGradient(0, -len * .05, 0, len * .05); sh.addColorStop(0, '#d9ccae'); sh.addColorStop(1, '#6e6450');
+      const sh = g.createLinearGradient(0, -len * .05, 0, len * .05); sh.addColorStop(0, '#b0c5d7'); sh.addColorStop(1, '#52606c');
       g.fillStyle = sh; g.beginPath(); g.moveTo(-len / 2, -len * .035); g.lineTo(len / 2, -len * .035); g.lineTo(len / 2, len * .035); g.lineTo(-len / 2, len * .035); g.closePath(); g.fill();
       for (const sx of [-1, 1]) for (const sy of [-1, 1]) { g.beginPath(); g.arc(sx * len / 2, sy * len * .05, len * .062, 0, TAU); g.fillStyle = sh; g.fill(); }
       g.restore();
@@ -142,7 +142,7 @@ const Scenery = (() => {
       }
       const side = g.createLinearGradient(x - w / 2, 0, x + w / 2, 0); side.addColorStop(0, 'rgba(0,0,0,.55)'); side.addColorStop(.5, 'rgba(0,0,0,0)'); side.addColorStop(1, 'rgba(0,0,0,.55)');
       g.fillStyle = side; g.fillRect(x - w / 2, y, w, h);
-      const warm = g.createLinearGradient(0, y + h, 0, y + h * .3); warm.addColorStop(0, 'rgba(255,150,70,.22)'); warm.addColorStop(1, 'rgba(255,150,70,0)');
+      const warm = g.createLinearGradient(0, y + h, 0, y + h * .3); warm.addColorStop(0, 'rgba(105,149,220,.22)'); warm.addColorStop(1, 'rgba(105,149,220,0)');
       g.fillStyle = warm; g.fillRect(x - w / 2, y, w, h);
       g.restore();
     }
@@ -161,9 +161,9 @@ const Scenery = (() => {
       for (let i = -4; i <= 4; i++) {
         const x0 = i * .42, x1 = i * .98;
         g.strokeStyle = 'rgba(0,0,0,.42)'; g.lineWidth = .34; g.beginPath(); g.moveTo(x0, -9); g.quadraticCurveTo(x0 * 1.4 + (i % 2 ? .3 : -.3), -6.2, x1, -3.2); g.stroke();
-        g.strokeStyle = 'rgba(255,230,200,.13)'; g.lineWidth = .22; g.beginPath(); g.moveTo(x0 + .26, -9); g.quadraticCurveTo(x0 * 1.4 + .3, -6.2, x1 + .3, -3.2); g.stroke();
+        g.strokeStyle = 'rgba(210,226,245,.13)'; g.lineWidth = .22; g.beginPath(); g.moveTo(x0 + .26, -9); g.quadraticCurveTo(x0 * 1.4 + .3, -6.2, x1 + .3, -3.2); g.stroke();
       }
-      const up = g.createLinearGradient(0, -3, 0, -8); up.addColorStop(0, 'rgba(255,150,70,.3)'); up.addColorStop(1, 'rgba(255,150,70,0)'); g.fillStyle = up; g.fillRect(-4, -9.2, 8, 6.2);
+      const up = g.createLinearGradient(0, -3, 0, -8); up.addColorStop(0, 'rgba(105,149,220,.3)'); up.addColorStop(1, 'rgba(105,149,220,0)'); g.fillStyle = up; g.fillRect(-4, -9.2, 8, 6.2);
       g.restore();
       const face = g.createRadialGradient(0, -10.2, .1, 0, -10.2, 1.7); face.addColorStop(0, '#020103'); face.addColorStop(.75, 'rgba(6,4,8,.96)'); face.addColorStop(1, 'rgba(6,4,8,0)');
       g.fillStyle = face; g.beginPath(); g.ellipse(0, -10.1, 1.2, 1.55, 0, 0, TAU); g.fill();
@@ -188,33 +188,33 @@ const Scenery = (() => {
       softShadow(g, () => { shape(g); g.fill(); }, u * .5, .6, u * .55, u * .5);
       g.save(); shape(g); g.clip();
       const cl = g.createLinearGradient(x - w / 2, 0, x + w / 2, 0);
-      [[0, '#2a040c'], [.12, '#6e1228'], [.26, '#34070f'], [.42, '#7d1630'], [.58, '#3a0811'], [.74, '#6a1126'], [.88, '#2c050d'], [1, '#4a0a19']].forEach(([o, c]) => cl.addColorStop(o, c));
+      [[0, '#090d25'], [.12, '#182368'], [.26, '#0b1030'], [.42, '#1c2877'], [.58, '#0d1235'], [.74, '#172264'], [.88, '#090d28'], [1, '#101744']].forEach(([o, c]) => cl.addColorStop(o, c));
       g.fillStyle = cl; g.fillRect(x - w, y, w * 2, h);
-      const vt = g.createLinearGradient(0, y, 0, y + h); vt.addColorStop(0, 'rgba(255,200,170,.1)'); vt.addColorStop(.5, 'rgba(0,0,0,0)'); vt.addColorStop(1, 'rgba(0,0,0,.5)'); g.fillStyle = vt; g.fillRect(x - w, y, w * 2, h);
+      const vt = g.createLinearGradient(0, y, 0, y + h); vt.addColorStop(0, 'rgba(186,204,239,.1)'); vt.addColorStop(.5, 'rgba(0,0,0,0)'); vt.addColorStop(1, 'rgba(0,0,0,.5)'); g.fillStyle = vt; g.fillRect(x - w, y, w * 2, h);
       grain(g, x - w / 2, y, w, h, Math.floor(w * h / 60), .05, 1);
-      g.strokeStyle = 'rgba(184,145,63,.55)'; g.lineWidth = 1.2; g.setLineDash([u * .35, u * .18]); // 金線刺繡
+      g.strokeStyle = 'rgba(69,127,178,.55)'; g.lineWidth = 1.2; g.setLineDash([u * .35, u * .18]); // 金線刺繡
       g.beginPath(); g.moveTo(x - w / 2 + u * .55, y + u * .7); g.lineTo(x + w / 2 - u * .55, y + u * .7); g.lineTo(x + w / 2 - u * .55, y + h - u * .7); g.lineTo(x, y + h - w * .45 - u * .7); g.lineTo(x - w / 2 + u * .55, y + h - u * .7); g.closePath(); g.stroke(); g.setLineDash([]);
       const cy = y + h * .4, arm = Math.max(3, w * .08);
-      for (const [col, off] of [['rgba(0,0,0,.55)', 1.6], ['#b8913f', 0], ['rgba(255,235,170,.35)', -.8]]) {
-        g.strokeStyle = col; g.lineWidth = col === 'rgba(255,235,170,.35)' ? arm * .35 : arm; g.lineCap = 'butt';
+      for (const [col, off] of [['rgba(0,0,0,.55)', 1.6], ['#457fb2', 0], ['rgba(186,217,239,.35)', -.8]]) {
+        g.strokeStyle = col; g.lineWidth = col === 'rgba(186,217,239,.35)' ? arm * .35 : arm; g.lineCap = 'butt';
         g.beginPath(); g.moveTo(x, cy - h * .2 + off); g.lineTo(x, cy + h * .2 + off); g.moveTo(x - w * .21, cy - h * .06 + off); g.lineTo(x + w * .21, cy - h * .06 + off); g.stroke();
       }
       g.restore();
       g.strokeStyle = 'rgba(0,0,0,.5)'; g.lineWidth = 1; shape(g); g.stroke();
       // 燕尾的金色滾邊與流蘇：流蘇的起點在布的邊緣上，往下垂（先滾邊、再一根根絲線）
       const Lb = { x: x - w / 2 + edge(h), y: y + h }, Nt = { x, y: y + h - w * .45 }, Rb = { x: x + w / 2 + edge(h + 30), y: y + h };
-      g.lineCap = 'round'; g.strokeStyle = '#6b5320'; g.lineWidth = 3.2; g.beginPath(); g.moveTo(Lb.x, Lb.y); g.lineTo(Nt.x, Nt.y); g.lineTo(Rb.x, Rb.y); g.stroke();
-      g.strokeStyle = '#c9a24a'; g.lineWidth = 1.6; g.beginPath(); g.moveTo(Lb.x, Lb.y); g.lineTo(Nt.x, Nt.y); g.lineTo(Rb.x, Rb.y); g.stroke();
+      g.lineCap = 'round'; g.strokeStyle = '#244867'; g.lineWidth = 3.2; g.beginPath(); g.moveTo(Lb.x, Lb.y); g.lineTo(Nt.x, Nt.y); g.lineTo(Rb.x, Rb.y); g.stroke();
+      g.strokeStyle = '#508ec3'; g.lineWidth = 1.6; g.beginPath(); g.moveTo(Lb.x, Lb.y); g.lineTo(Nt.x, Nt.y); g.lineTo(Rb.x, Rb.y); g.stroke();
       for (const [a, b] of [[Lb, Nt], [Nt, Rb]]) {
         for (let n = 0; n <= 12; n++) {
           const t = n / 12, px = a.x + (b.x - a.x) * t, py = a.y + (b.y - a.y) * t, len = u * (.8 + random() * .35), sw = (random() - .5) * u * .25;
-          g.strokeStyle = '#8a6c28'; g.lineWidth = 2; g.beginPath(); g.moveTo(px, py); g.quadraticCurveTo(px + sw * .4, py + len * .5, px + sw, py + len); g.stroke();
-          g.strokeStyle = '#d9b45c'; g.lineWidth = 1; g.beginPath(); g.moveTo(px, py); g.quadraticCurveTo(px + sw * .4, py + len * .5, px + sw, py + len); g.stroke();
+          g.strokeStyle = '#2d5d85'; g.lineWidth = 2; g.beginPath(); g.moveTo(px, py); g.quadraticCurveTo(px + sw * .4, py + len * .5, px + sw, py + len); g.stroke();
+          g.strokeStyle = '#62a0d3'; g.lineWidth = 1; g.beginPath(); g.moveTo(px, py); g.quadraticCurveTo(px + sw * .4, py + len * .5, px + sw, py + len); g.stroke();
         }
       }
-      const rod = g.createLinearGradient(0, y - u * .35, 0, y + u * .3); rod.addColorStop(0, '#6b5320'); rod.addColorStop(.4, '#d9b45c'); rod.addColorStop(1, '#4a3912');
+      const rod = g.createLinearGradient(0, y - u * .35, 0, y + u * .3); rod.addColorStop(0, '#244867'); rod.addColorStop(.4, '#62a0d3'); rod.addColorStop(1, '#153047');
       g.fillStyle = rod; g.fillRect(x - w * .66, y - u * .32, w * 1.32, u * .6);
-      for (const sx of [-1, 1]) { const ball = g.createRadialGradient(x + sx * w * .66 - u * .1, y - u * .15, 0, x + sx * w * .66, y, u * .45); ball.addColorStop(0, '#fff0b8'); ball.addColorStop(1, '#6b5320'); g.fillStyle = ball; g.beginPath(); g.arc(x + sx * w * .66, y - u * .02, u * .42, 0, TAU); g.fill(); }
+      for (const sx of [-1, 1]) { const ball = g.createRadialGradient(x + sx * w * .66 - u * .1, y - u * .15, 0, x + sx * w * .66, y, u * .45); ball.addColorStop(0, '#c5e0f2'); ball.addColorStop(1, '#244867'); g.fillStyle = ball; g.beginPath(); g.arc(x + sx * w * .66, y - u * .02, u * .42, 0, TAU); g.fill(); }
     }
     // 牆上的火把：鐵托架、木柄、杯口的暗影；牆上被煙燻黑的一道痕跡
     function torch(g, x, y) {
@@ -222,13 +222,13 @@ const Scenery = (() => {
       g.fillStyle = soot; g.beginPath(); g.ellipse(x, y - u * 3.2, u * 1.1, u * 3.6, 0, 0, TAU); g.fill();
       softShadow(g, () => { g.fillRect(x - u * .3, y, u * .6, u * 3.4); }, u * .35, .55, u * .45, u * .35);
       g.save(); g.lineCap = 'round';
-      const wd = g.createLinearGradient(x - u * .25, 0, x + u * .25, 0); wd.addColorStop(0, '#2a1d14'); wd.addColorStop(.45, '#7a5c3e'); wd.addColorStop(1, '#2a1d14');
+      const wd = g.createLinearGradient(x - u * .25, 0, x + u * .25, 0); wd.addColorStop(0, '#151c29'); wd.addColorStop(.45, '#415877'); wd.addColorStop(1, '#151c29');
       g.strokeStyle = wd; g.lineWidth = u * .46; g.beginPath(); g.moveTo(x, y + u * 3.5); g.lineTo(x, y); g.stroke();
       const cup = g.createLinearGradient(x - u, 0, x + u, 0); cup.addColorStop(0, '#120d14'); cup.addColorStop(.5, '#4a3f4a'); cup.addColorStop(1, '#17111a');
       g.fillStyle = cup; g.beginPath(); g.moveTo(x - u, y - u * .25); g.lineTo(x + u, y - u * .25); g.lineTo(x + u * .55, y + u * 1.25); g.lineTo(x - u * .55, y + u * 1.25); g.closePath(); g.fill();
-      g.fillStyle = 'rgba(255,150,70,.35)'; g.beginPath(); g.ellipse(x, y - u * .25, u, u * .22, 0, 0, TAU); g.fill();
+      g.fillStyle = 'rgba(105,149,220,.35)'; g.beginPath(); g.ellipse(x, y - u * .25, u, u * .22, 0, 0, TAU); g.fill();
       g.restore();
-      g.save(); g.globalCompositeOperation = 'lighter'; glow(g, x, y - u, u * 9, 'rgba(255,150,70,.16)'); g.restore();
+      g.save(); g.globalCompositeOperation = 'lighter'; glow(g, x, y - u, u * 9, 'rgba(105,149,220,.16)'); g.restore();
       flame(x, y - u * .1, 1.7);
     }
     // 吊燈：鐵鏈有高光、鐵環上亮下暗，環上一圈蠟燭
@@ -236,16 +236,16 @@ const Scenery = (() => {
       const apex = ringY - 5.5 * u;
       softShadow(g, () => { g.beginPath(); g.ellipse(x, ringY, rx * 1.05, rx * .3, 0, 0, TAU); g.fill(); }, u * .5, .45, u * .5, u * .9);
       g.save(); g.lineCap = 'round';
-      for (let y = -u; y < apex; y += u * .7) { g.beginPath(); g.ellipse(x, y, u * .16, u * .34, 0, 0, TAU); g.strokeStyle = '#3a3036'; g.lineWidth = 1.5; g.stroke(); g.strokeStyle = 'rgba(255,220,180,.25)'; g.lineWidth = .7; g.beginPath(); g.arc(x - u * .04, y - u * .12, u * .11, Math.PI, Math.PI * 1.6); g.stroke(); }
+      for (let y = -u; y < apex; y += u * .7) { g.beginPath(); g.ellipse(x, y, u * .16, u * .34, 0, 0, TAU); g.strokeStyle = '#3a3036'; g.lineWidth = 1.5; g.stroke(); g.strokeStyle = 'rgba(194,215,241,.25)'; g.lineWidth = .7; g.beginPath(); g.arc(x - u * .04, y - u * .12, u * .11, Math.PI, Math.PI * 1.6); g.stroke(); }
       g.strokeStyle = '#1a1318'; g.lineWidth = Math.max(1, u * .12);
       for (const [px, py] of [[x - rx, ringY], [x + rx, ringY], [x, ringY + rx * .22]]) { g.beginPath(); g.moveTo(x, apex); g.lineTo(px, py); g.stroke(); }
-      const iron = g.createLinearGradient(0, ringY - rx * .22, 0, ringY + rx * .22); iron.addColorStop(0, '#8a7458'); iron.addColorStop(.5, '#3a2f30'); iron.addColorStop(1, '#0d090c');
+      const iron = g.createLinearGradient(0, ringY - rx * .22, 0, ringY + rx * .22); iron.addColorStop(0, '#5a6f88'); iron.addColorStop(.5, '#3a2f30'); iron.addColorStop(1, '#0d090c');
       g.beginPath(); g.ellipse(x, ringY, rx, rx * .22, 0, 0, TAU); g.strokeStyle = iron; g.lineWidth = u * .5; g.stroke();
-      g.strokeStyle = 'rgba(255,225,170,.3)'; g.lineWidth = 1; g.beginPath(); g.ellipse(x, ringY - u * .08, rx, rx * .22, 0, Math.PI * 1.05, Math.PI * 1.95); g.stroke();
+      g.strokeStyle = 'rgba(186,213,239,.3)'; g.lineWidth = 1; g.beginPath(); g.ellipse(x, ringY - u * .08, rx, rx * .22, 0, Math.PI * 1.05, Math.PI * 1.95); g.stroke();
       g.fillStyle = '#17101b'; g.beginPath(); g.moveTo(x - u * .6, ringY + rx * .22); g.lineTo(x, ringY + rx * .22 + u * 2.4); g.lineTo(x + u * .6, ringY + rx * .22); g.closePath(); g.fill();
       g.restore();
       for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; candle(x + Math.cos(a) * rx, ringY + Math.sin(a) * rx * .22, u * 1.1); }
-      g.save(); g.globalCompositeOperation = 'lighter'; glow(g, x, ringY, rx * 2.4, 'rgba(255,170,90,.12)'); g.restore();
+      g.save(); g.globalCompositeOperation = 'lighter'; glow(g, x, ringY, rx * 2.4, 'rgba(121,163,224,.12)'); g.restore();
     }
     function wallProps() {
       const ox = Math.min(aw * .8, W * .32);
@@ -274,25 +274,25 @@ const Scenery = (() => {
       face([A, B, D, C], '#4f4857', '#1d1823');
       // 前面：上緣的棺蓋厚邊與凹雕尖拱
       g.save(); poly([A, B, D, C]); g.clip();
-      const lid = g.createLinearGradient(0, y0, 0, y0 + h * .17); lid.addColorStop(0, 'rgba(255,240,215,.18)'); lid.addColorStop(.55, 'rgba(255,240,215,.05)'); lid.addColorStop(1, 'rgba(0,0,0,.55)');
+      const lid = g.createLinearGradient(0, y0, 0, y0 + h * .17); lid.addColorStop(0, 'rgba(223,235,247,.18)'); lid.addColorStop(.55, 'rgba(223,235,247,.05)'); lid.addColorStop(1, 'rgba(0,0,0,.55)');
       g.fillStyle = lid; g.fillRect(x0, y0, w, h * .17);
       for (let i = 0; i < 3; i++) {
         const ax = x0 + w * (.2 + .3 * i), ay = y0 + h * .26, aw2 = w * .22, ah = h * .66;
         arch(g, ax, ay, aw2, ah); const inn = g.createLinearGradient(0, ay, 0, ay + ah); inn.addColorStop(0, '#07050a'); inn.addColorStop(1, '#1a1520'); g.fillStyle = inn; g.fill();
-        g.save(); g.translate(0, 1.3); arch(g, ax, ay, aw2, ah); g.strokeStyle = 'rgba(255,230,200,.2)'; g.lineWidth = 1.4; g.stroke(); g.restore();
+        g.save(); g.translate(0, 1.3); arch(g, ax, ay, aw2, ah); g.strokeStyle = 'rgba(210,226,245,.2)'; g.lineWidth = 1.4; g.stroke(); g.restore();
         arch(g, ax, ay, aw2, ah); g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 1.2; g.stroke();
       }
       g.restore();
       // 稜線：所有面共用同一組頂點，所以接得起來
       g.lineJoin = 'round'; g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 1.2;
       for (const pts of [side4, [A, B, B2, A2], [A, B, D, C]]) { poly(pts); g.stroke(); }
-      g.strokeStyle = 'rgba(255,238,215,.28)'; g.lineWidth = 1; g.beginPath(); g.moveTo(A.x, A.y + .8); g.lineTo(B.x, B.y + .8); g.stroke();
+      g.strokeStyle = 'rgba(223,234,247,.28)'; g.lineWidth = 1; g.beginPath(); g.moveTo(A.x, A.y + .8); g.lineTo(B.x, B.y + .8); g.stroke();
       // 頂面上凹陷的棺蓋嵌板：外緣一圈暗線、內緣一圈亮線
       const panel = [P(.04, .14), P(.96, .14), P(.96, .86), P(.04, .86)];
       poly(panel); g.strokeStyle = 'rgba(0,0,0,.45)'; g.lineWidth = 1.2; g.stroke();
-      g.save(); g.translate(0, 1.1); poly(panel); g.strokeStyle = 'rgba(255,238,215,.16)'; g.lineWidth = 1; g.stroke(); g.restore();
+      g.save(); g.translate(0, 1.1); poly(panel); g.strokeStyle = 'rgba(223,234,247,.16)'; g.lineWidth = 1; g.stroke(); g.restore();
       const a = P(.8, .5), b = P(.2, .5), cnd = P(.92, .5);
-      g.fillStyle = 'rgba(230,215,185,.35)'; for (const p of [a, cnd]) { g.beginPath(); g.ellipse(p.x, p.y + u * .05, u * .8, u * .26, 0, 0, TAU); g.fill(); }
+      g.fillStyle = 'rgba(187,208,228,.35)'; for (const p of [a, cnd]) { g.beginPath(); g.ellipse(p.x, p.y + u * .05, u * .8, u * .26, 0, 0, TAU); g.fill(); }
       skull(g, b.x, b.y - u * .55, u * 1.6, .98); candle(cnd.x, cnd.y, u * 2.2); candle(a.x, a.y, u * 1.4);
       // 外側地上的白骨與骷髏
       const bx = x0 + (side < 0 ? w * .55 : w * .45), by = y0 + h * 1.12;
@@ -302,10 +302,10 @@ const Scenery = (() => {
     function rose(g, x, y, s) {
       softShadow(g, () => { g.beginPath(); g.ellipse(x, y + s * .3, s * 1.2, s * .5, 0, 0, TAU); g.fill(); }, s * .4, .6, s * .15, s * .2);
       g.save(); g.translate(x, y);
-      g.fillStyle = '#0d0a0c'; g.beginPath(); g.ellipse(-s * .95, s * .45, s * .7, s * .28, -.5, 0, TAU); g.fill();
-      const bud = g.createRadialGradient(-s * .25, -s * .3, 0, 0, 0, s * 1.05); bud.addColorStop(0, '#6a1428'); bud.addColorStop(.6, '#2e0710'); bud.addColorStop(1, '#0d0205');
+      g.fillStyle = '#0a0b0d'; g.beginPath(); g.ellipse(-s * .95, s * .45, s * .7, s * .28, -.5, 0, TAU); g.fill();
+      const bud = g.createRadialGradient(-s * .25, -s * .3, 0, 0, 0, s * 1.05); bud.addColorStop(0, '#182366'); bud.addColorStop(.6, '#0a0e2b'); bud.addColorStop(1, '#03040c');
       g.fillStyle = bud; g.beginPath(); g.arc(0, 0, s, 0, TAU); g.fill();
-      g.strokeStyle = 'rgba(255,170,170,.18)'; g.lineWidth = .8; for (let i = 0; i < 3; i++) { g.beginPath(); g.arc(0, 0, s * (.78 - i * .24), i, i + 4.4); g.stroke(); }
+      g.strokeStyle = 'rgba(186,193,239,.18)'; g.lineWidth = .8; for (let i = 0; i < 3; i++) { g.beginPath(); g.arc(0, 0, s * (.78 - i * .24), i, i + 4.4); g.stroke(); }
       g.restore();
     }
     function floorProps() {
@@ -324,7 +324,7 @@ const Scenery = (() => {
       const hwR = [hwF, hwF + m * td, hwF + 2 * m * td, hwF + 3 * m * td]; // 各級立面的半寬（最後一個是最下面階面前緣）
       carpetW = 2 * hwF * k;
       const grainRect = (x, y, w, h, a) => grain(g, x, y, w, h, Math.floor(w * h / 110), a, 1);
-      const carpetGrad = (x0, x1, tread) => { const c = g.createLinearGradient(x0, 0, x1, 0); c.addColorStop(0, tread ? '#3a0a14' : '#2a060e'); c.addColorStop(.5, tread ? '#6e1427' : '#4e0c1c'); c.addColorStop(1, tread ? '#3a0a14' : '#2a060e'); return c; };
+      const carpetGrad = (x0, x1, tread) => { const c = g.createLinearGradient(x0, 0, x1, 0); c.addColorStop(0, tread ? '#0d1337' : '#090d27'); c.addColorStop(.5, tread ? '#192369' : '#111949'); c.addColorStop(1, tread ? '#0d1337' : '#090d27'); return c; };
       // 織金鑲邊：有寬度的金帶，內外各一道亮線，帶子裡排菱形紋樣（間距與寬度跟著透視變大）
       const goldBorder = (ya, h0, yb2, h1) => {
         const f0 = .83, f1 = .965;
@@ -332,17 +332,17 @@ const Scenery = (() => {
           const P = (t, f) => ({ x: cx + s * (h0 + (h1 - h0) * t) * f, y: ya + (yb2 - ya) * t });
           const band = (g2) => { g2.beginPath(); const a = P(0, f1), b = P(1, f1), c = P(1, f0), d = P(0, f0); g2.moveTo(a.x, a.y); g2.lineTo(b.x, b.y); g2.lineTo(c.x, c.y); g2.lineTo(d.x, d.y); g2.closePath(); };
           const o0 = P(0, 1), o1 = P(1, 1); // 外緣的暗影
-          g.strokeStyle = 'rgba(10,2,4,.7)'; g.lineWidth = 2; g.beginPath(); g.moveTo(o0.x, o0.y); g.lineTo(o1.x, o1.y); g.stroke();
-          band(g); const gr = g.createLinearGradient(cx + s * h1 * f0, 0, cx + s * h1 * f1, 0); gr.addColorStop(0, '#8a6a28'); gr.addColorStop(.5, '#d9b45c'); gr.addColorStop(1, '#7a5d22'); g.fillStyle = gr; g.fill();
-          for (const [f, col, lw] of [[f0, 'rgba(255,238,190,.75)', 1.1], [f1, 'rgba(255,238,190,.6)', 1.1], [f0 - .012, 'rgba(0,0,0,.45)', 1], [f1 + .012, 'rgba(0,0,0,.5)', 1]]) {
+          g.strokeStyle = 'rgba(2,3,10,.7)'; g.lineWidth = 2; g.beginPath(); g.moveTo(o0.x, o0.y); g.lineTo(o1.x, o1.y); g.stroke();
+          band(g); const gr = g.createLinearGradient(cx + s * h1 * f0, 0, cx + s * h1 * f1, 0); gr.addColorStop(0, '#2d5c85'); gr.addColorStop(.5, '#62a0d3'); gr.addColorStop(1, '#265076'); g.fillStyle = gr; g.fill();
+          for (const [f, col, lw] of [[f0, 'rgba(202,225,243,.75)', 1.1], [f1, 'rgba(202,225,243,.6)', 1.1], [f0 - .012, 'rgba(0,0,0,.45)', 1], [f1 + .012, 'rgba(0,0,0,.5)', 1]]) {
             const a = P(0, f), b = P(1, f); g.strokeStyle = col; g.lineWidth = lw; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
           }
           const len = yb2 - ya, avgH = (h0 + h1) / 2, bw = avgH * (f1 - f0), pitch = Math.max(bw * 1.7, 6), n = Math.max(1, Math.floor(len / pitch));
           for (let i = 0; i < n; i++) {
             const t = (i + .5) / n, c = P(t, (f0 + f1) / 2), sz = ((h0 + (h1 - h0) * t) * (f1 - f0));
             g.beginPath(); g.moveTo(c.x, c.y - sz * .5); g.lineTo(c.x + sz * .34, c.y); g.lineTo(c.x, c.y + sz * .5); g.lineTo(c.x - sz * .34, c.y); g.closePath();
-            g.fillStyle = '#3a0812'; g.fill(); g.strokeStyle = 'rgba(255,238,190,.7)'; g.lineWidth = .9; g.stroke();
-            g.fillStyle = '#e8c96a'; g.beginPath(); g.arc(c.x, c.y, Math.max(.8, sz * .09), 0, TAU); g.fill();
+            g.fillStyle = '#0d1235'; g.fill(); g.strokeStyle = 'rgba(202,225,243,.7)'; g.lineWidth = .9; g.stroke();
+            g.fillStyle = '#74b1de'; g.beginPath(); g.arc(c.x, c.y, Math.max(.8, sz * .09), 0, TAU); g.fill();
           }
         }
       };
@@ -361,7 +361,7 @@ const Scenery = (() => {
       g.strokeStyle = 'rgba(0,0,0,.4)'; g.lineWidth = 1;
       for (let i = -5; i <= 5; i++) { g.beginPath(); g.moveTo(cx + i * hwB / 5, yb); g.lineTo(cx + i * hwF / 5, yf); g.stroke(); }
       for (let i = 1; i < 4; i++) { const t = (i / 4) ** 1.3, y = yb + (yf - yb) * t; g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
-      const warm = g.createRadialGradient(cx, yf, 0, cx, yf, A * .6); warm.addColorStop(0, 'rgba(255,150,70,.16)'); warm.addColorStop(1, 'rgba(255,150,70,0)'); g.fillStyle = warm; g.fillRect(cx - A, yb, A * 2, yf - yb);
+      const warm = g.createRadialGradient(cx, yf, 0, cx, yf, A * .6); warm.addColorStop(0, 'rgba(105,149,220,.16)'); warm.addColorStop(1, 'rgba(105,149,220,0)'); g.fillStyle = warm; g.fillRect(cx - A, yb, A * 2, yf - yb);
       g.restore();
       // 台座頂面的金線：把台座邊界的梯形「垂直於每條邊」往內偏移，畫成封閉的雙線金框，每一條都和對應的邊完全平行
       const insetPoly = (pts, d) => {
@@ -369,7 +369,7 @@ const Scenery = (() => {
         return pts.map((_, i) => { const a1 = ls[(i + n - 1) % n], a2 = ls[i], det = a1.dx * a2.dy - a1.dy * a2.dx, t = ((a2.x - a1.x) * a2.dy - (a2.y - a1.y) * a2.dx) / det; return { x: a1.x + a1.dx * t, y: a1.y + a1.dy * t }; });
       };
       const slab = [{ x: cx - hwB, y: yb }, { x: cx + hwB, y: yb }, { x: cx + hwF, y: yf }, { x: cx - hwF, y: yf }];
-      for (const [d, col, lw] of [[u * .75, 'rgba(222,184,98,.9)', 1.7], [u * .75 + 4, 'rgba(184,145,63,.5)', 1]]) {
+      for (const [d, col, lw] of [[u * .75, 'rgba(104,165,216,.9)', 1.7], [u * .75 + 4, 'rgba(69,127,178,.5)', 1]]) {
         const q = insetPoly(slab, d); g.beginPath(); q.forEach((p2, i) => (i ? g.lineTo(p2.x, p2.y) : g.moveTo(p2.x, p2.y))); g.closePath(); g.strokeStyle = col; g.lineWidth = lw; g.lineJoin = 'miter'; g.stroke();
       }
       // 台座頂面上的地毯：只從前緣到棺材腳（棺材後面沒有地毯），跟著同一個斜率收窄
@@ -388,10 +388,10 @@ const Scenery = (() => {
           const ax = cx - (n - 1) * pitch / 2 + q * pitch;
           if (Math.abs(ax - cx) < k * hr + 1.2 * u) continue; // 地毯蓋住的地方不雕
           arch(g, ax, y + rh * .16, 3.1 * u, rh * .72); const inn = g.createLinearGradient(0, y, 0, y + rh); inn.addColorStop(0, '#06040a'); inn.addColorStop(1, '#1b1620'); g.fillStyle = inn; g.fill();
-          g.save(); g.translate(0, 1.1); arch(g, ax, y + rh * .16, 3.1 * u, rh * .72); g.strokeStyle = 'rgba(255,230,200,.16)'; g.lineWidth = 1.2; g.stroke(); g.restore();
-          arch(g, ax, y + rh * .16, 3.1 * u, rh * .72); g.strokeStyle = 'rgba(184,145,63,.55)'; g.lineWidth = 1; g.stroke();
+          g.save(); g.translate(0, 1.1); arch(g, ax, y + rh * .16, 3.1 * u, rh * .72); g.strokeStyle = 'rgba(210,226,245,.16)'; g.lineWidth = 1.2; g.stroke(); g.restore();
+          arch(g, ax, y + rh * .16, 3.1 * u, rh * .72); g.strokeStyle = 'rgba(69,127,178,.55)'; g.lineWidth = 1; g.stroke();
         }
-        g.fillStyle = 'rgba(184,145,63,.7)'; g.fillRect(cx - hr, y + rh - 2, hr * 2, 2);
+        g.fillStyle = 'rgba(69,127,178,.7)'; g.fillRect(cx - hr, y + rh - 2, hr * 2, 2);
         g.restore();
         g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 1; g.strokeRect(cx - hr + .5, y + .5, hr * 2 - 1, rh - 1);
         carpetTrap(y, k * hr, y + rh, k * hr, false);
@@ -400,7 +400,7 @@ const Scenery = (() => {
         g.save(); g.beginPath(); g.moveTo(cx - hr, y); g.lineTo(cx + hr, y); g.lineTo(cx + hf, y + td); g.lineTo(cx - hf, y + td); g.closePath(); g.clip();
         litStone(g, cx - hf, y, hf * 2, td, '#5a5260', '#2c2631');
         g.restore();
-        g.fillStyle = 'rgba(255,238,215,.32)'; g.fillRect(cx - hf, y + td - 1.5, hf * 2, 1.5);
+        g.fillStyle = 'rgba(223,234,247,.32)'; g.fillRect(cx - hf, y + td - 1.5, hf * 2, 1.5);
         g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 1; g.beginPath(); g.moveTo(cx - hr, y); g.lineTo(cx - hf, y + td); g.lineTo(cx + hf, y + td); g.lineTo(cx + hr, y); g.stroke();
         carpetTrap(y, k * hr, y + td, k * hf, true);
         treads.push({ y: y + td * .55, w: (hr + hf) });
@@ -409,7 +409,7 @@ const Scenery = (() => {
       // 3) 階梯前的地面：地毯繼續往畫面前方鋪開，沿用同一個斜率往下變寬
       const hw0 = k * hwR[3], hw1 = hw0 + (H - y) * m * k * 1.15;
       g.beginPath(); g.moveTo(cx - hw0, y); g.lineTo(cx + hw0, y); g.lineTo(cx + hw1, H); g.lineTo(cx - hw1, H); g.closePath();
-      const fc = g.createLinearGradient(0, y, 0, H); fc.addColorStop(0, '#4e0c1c'); fc.addColorStop(1, '#2a060e'); g.fillStyle = fc; g.fill();
+      const fc = g.createLinearGradient(0, y, 0, H); fc.addColorStop(0, '#111949'); fc.addColorStop(1, '#090d27'); g.fillStyle = fc; g.fill();
       g.save(); g.clip(); grainRect(cx - hw1, y, hw1 * 2, H - y, .06); g.restore();
       goldBorder(y, hw0, H, hw1);
     }
@@ -420,7 +420,7 @@ const Scenery = (() => {
         softShadow(g, () => { g.beginPath(); g.ellipse(px, py, w * .8, u * .3, 0, 0, TAU); g.fill(); }, u * .4, .6, 0, u * .15);
         g.save(); g.beginPath(); g.rect(px - w / 2, top2, w, h); g.clip(); litStone(g, px - w / 2, top2, w, h, '#4a4350', '#1a151f'); g.restore();
         g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 1; g.strokeRect(px - w / 2 + .5, top2 + .5, w - 1, h - 1);
-        g.fillStyle = 'rgba(184,145,63,.7)'; g.fillRect(px - w / 2, top2 + u * .45, w, 1.5);
+        g.fillStyle = 'rgba(69,127,178,.7)'; g.fillRect(px - w / 2, top2 + u * .45, w, 1.5);
         const capY = top2 - u * .5; // 石座頂上的石板
         g.save(); g.beginPath(); g.rect(px - w * .62, capY, w * 1.24, u * .55); g.clip(); litStone(g, px - w * .62, capY, w * 1.24, u * .55, '#6a6370', '#3a3441'); g.restore();
         skull(g, px - w * .28, capY - u * .5, u * 1.25, .98);          // 骷髏在左
@@ -453,9 +453,9 @@ const Scenery = (() => {
     g.save(); g.globalCompositeOperation='lighter';
     for(const c of candles) {
       const pulse=1+.10*Math.sin(t*6+c.phase)+.05*Math.sin(t*17+c.phase*3), size=u*(c.s||1)*(1+.08*Math.sin(t*4+c.phase)),sway=Math.sin(t*3+c.phase)*u*.12;
-      glow(g,c.x,c.y+2*u,size*5,`rgba(255,179,92,${.09*pulse})`); glow(g,c.x,c.y,size*2,`rgba(255,179,92,${.21*pulse})`);
-      g.fillStyle=`rgba(255,179,92,${.8*pulse})`; g.beginPath(); g.moveTo(c.x,c.y); g.bezierCurveTo(c.x-size*.6,c.y-size,c.x+sway,c.y-size*2,c.x+sway,c.y-size*2.4); g.bezierCurveTo(c.x+size*.6,c.y-size,c.x+size*.4,c.y,c.x,c.y); g.fill();
-      g.fillStyle='#fff2c9'; g.beginPath(); g.ellipse(c.x,c.y-size*.4,size*.16,size*.45,0,0,TAU); g.fill();
+      glow(g,c.x,c.y+2*u,size*5,`rgba(123,168,224,${.09*pulse})`); glow(g,c.x,c.y,size*2,`rgba(123,168,224,${.21*pulse})`);
+      g.fillStyle=`rgba(123,168,224,${.8*pulse})`; g.beginPath(); g.moveTo(c.x,c.y); g.bezierCurveTo(c.x-size*.6,c.y-size,c.x+sway,c.y-size*2,c.x+sway,c.y-size*2.4); g.bezierCurveTo(c.x+size*.6,c.y-size,c.x+size*.4,c.y,c.x,c.y); g.fill();
+      g.fillStyle='#d3e7f5'; g.beginPath(); g.ellipse(c.x,c.y-size*.4,size*.16,size*.45,0,0,TAU); g.fill();
     } g.restore();
     // 貼地的低霧：幾團橫向的暗色霧氣緩慢飄過
     for(let i=0;i<6;i++) {
@@ -464,7 +464,7 @@ const Scenery = (() => {
       const f=g.createRadialGradient(0,0,0,0,0,rx); f.addColorStop(0,'rgba(190,175,215,.07)'); f.addColorStop(1,'rgba(190,175,215,0)');
       g.fillStyle=f; g.beginPath(); g.arc(0,0,rx,0,TAU); g.fill(); g.restore();
     }
-    g.strokeStyle='rgba(185,169,143,.16)'; g.lineWidth=.7;
+    g.strokeStyle='rgba(145,164,183,.16)'; g.lineWidth=.7;
     for(const side of [-1,1]) {
       g.save(); g.translate(side<0?0:W,0); g.scale(side<0?1:-1,1);
       for(let i=0;i<=6;i++) { const a=i*Math.PI/12; g.beginPath(); g.moveTo(0,0); g.lineTo(Math.cos(a)*13*u,Math.sin(a)*13*u); g.stroke(); }

@@ -348,17 +348,17 @@ const CREST_SVG = '<svg class="card-crest" viewBox="0 0 80 52" aria-hidden="true
 // 右下角的紅蠟封印：不規則的蠟、壓出的外圈、浮雕的「祝」字，下面垂兩條緞帶
 const SEAL_SVG = '<svg viewBox="8 14 84 84" aria-hidden="true">'
   + '<defs>'
-  + '<radialGradient id="waxG" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#d4495f"/><stop offset=".45" stop-color="#9b1a36"/><stop offset="1" stop-color="#4a0816"/></radialGradient>'
+  + '<radialGradient id="waxG" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#5061cd"/><stop offset=".45" stop-color="#223193"/><stop offset="1" stop-color="#101642"/></radialGradient>'
   + ''
   + '</defs>'
   + '<path d="M85.5 56.0 C86.3 60.1 87.7 65.5 86.2 69.2 C84.7 72.9 79.6 75.2 76.6 78.3 C73.6 81.4 71.7 85.4 68.4 87.8 C65.0 90.3 60.6 92.2 56.5 92.8 C52.4 93.4 47.9 92.4 43.7 91.6 C39.5 90.9 35.0 90.4 31.3 88.5 C27.5 86.5 24.0 83.4 21.3 80.1 C18.5 76.8 16.4 72.9 14.7 68.8 C13.1 64.8 11.2 60.3 11.2 56.0 C11.3 51.7 13.4 47.3 15.1 43.3 C16.9 39.4 19.4 36.1 21.8 32.3 C24.2 28.6 26.1 22.7 29.8 21.0 C33.5 19.3 39.6 22.0 44.0 22.1 C48.4 22.1 51.8 21.4 56.1 21.3 C60.4 21.2 66.1 19.8 69.9 21.6 C73.6 23.4 76.6 28.3 78.5 32.1 C80.4 35.9 80.1 40.6 81.3 44.6 C82.5 48.6 84.7 51.9 85.5 56.0Z" transform="translate(2.5 3.5)" fill="#000" opacity=".5"/>'
-  + '<path d="M85.5 56.0 C86.3 60.1 87.7 65.5 86.2 69.2 C84.7 72.9 79.6 75.2 76.6 78.3 C73.6 81.4 71.7 85.4 68.4 87.8 C65.0 90.3 60.6 92.2 56.5 92.8 C52.4 93.4 47.9 92.4 43.7 91.6 C39.5 90.9 35.0 90.4 31.3 88.5 C27.5 86.5 24.0 83.4 21.3 80.1 C18.5 76.8 16.4 72.9 14.7 68.8 C13.1 64.8 11.2 60.3 11.2 56.0 C11.3 51.7 13.4 47.3 15.1 43.3 C16.9 39.4 19.4 36.1 21.8 32.3 C24.2 28.6 26.1 22.7 29.8 21.0 C33.5 19.3 39.6 22.0 44.0 22.1 C48.4 22.1 51.8 21.4 56.1 21.3 C60.4 21.2 66.1 19.8 69.9 21.6 C73.6 23.4 76.6 28.3 78.5 32.1 C80.4 35.9 80.1 40.6 81.3 44.6 C82.5 48.6 84.7 51.9 85.5 56.0Z" fill="url(#waxG)" stroke="#33060f" stroke-width="1.4"/>'
-  + '<circle cx="50" cy="56" r="26" fill="none" stroke="#2c040c" stroke-width="2.4" transform="translate(1 1)"/>'
-  + '<circle cx="50" cy="56" r="26" fill="none" stroke="#e8808d" stroke-opacity=".55" stroke-width="1.2" transform="translate(-.8 -.8)"/>'
-  + [0, 1, 2, 3, 4, 5, 6, 7].map((k) => `<circle cx="${(50 + Math.cos(k * Math.PI / 4) * 31).toFixed(1)}" cy="${(56 + Math.sin(k * Math.PI / 4) * 31).toFixed(1)}" r="1.5" fill="#3b0710" opacity=".8"/>`).join('')
-  + '<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" class="seal-glyph" fill="#f28b99" fill-opacity=".55" transform="translate(-.9 -.9)">祝</text>'
-  + '<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" class="seal-glyph" fill="#25030a" fill-opacity=".9" transform="translate(1.1 1.1)">祝</text>'
-  + '<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" class="seal-glyph" fill="#7b1228">祝</text>'
+  + '<path d="M85.5 56.0 C86.3 60.1 87.7 65.5 86.2 69.2 C84.7 72.9 79.6 75.2 76.6 78.3 C73.6 81.4 71.7 85.4 68.4 87.8 C65.0 90.3 60.6 92.2 56.5 92.8 C52.4 93.4 47.9 92.4 43.7 91.6 C39.5 90.9 35.0 90.4 31.3 88.5 C27.5 86.5 24.0 83.4 21.3 80.1 C18.5 76.8 16.4 72.9 14.7 68.8 C13.1 64.8 11.2 60.3 11.2 56.0 C11.3 51.7 13.4 47.3 15.1 43.3 C16.9 39.4 19.4 36.1 21.8 32.3 C24.2 28.6 26.1 22.7 29.8 21.0 C33.5 19.3 39.6 22.0 44.0 22.1 C48.4 22.1 51.8 21.4 56.1 21.3 C60.4 21.2 66.1 19.8 69.9 21.6 C73.6 23.4 76.6 28.3 78.5 32.1 C80.4 35.9 80.1 40.6 81.3 44.6 C82.5 48.6 84.7 51.9 85.5 56.0Z" fill="url(#waxG)" stroke="#0b102e" stroke-width="1.4"/>'
+  + '<circle cx="50" cy="56" r="26" fill="none" stroke="#090d27" stroke-width="2.4" transform="translate(1 1)"/>'
+  + '<circle cx="50" cy="56" r="26" fill="none" stroke="#8692e2" stroke-opacity=".55" stroke-width="1.2" transform="translate(-.8 -.8)"/>'
+  + [0, 1, 2, 3, 4, 5, 6, 7].map((k) => `<circle cx="${(50 + Math.cos(k * Math.PI / 4) * 31).toFixed(1)}" cy="${(56 + Math.sin(k * Math.PI / 4) * 31).toFixed(1)}" r="1.5" fill="#0d1235" opacity=".8"/>`).join('')
+  + '<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" class="seal-glyph" fill="#97a1e6" fill-opacity=".55" transform="translate(-.9 -.9)">祝</text>'
+  + '<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" class="seal-glyph" fill="#080b20" fill-opacity=".9" transform="translate(1.1 1.1)">祝</text>'
+  + '<text x="50" y="58" text-anchor="middle" dominant-baseline="middle" class="seal-glyph" fill="#1b2672">祝</text>'
   + '<ellipse cx="34" cy="36" rx="9" ry="4.5" fill="#fff" opacity=".22" transform="rotate(-35 34 36)"/>'
   + '</svg>';
 
@@ -627,7 +627,7 @@ function makeGhostSprite(variant) {
   }
   g.fillStyle = 'rgba(20,14,32,0.9)';
   g.beginPath(); g.ellipse(96, 104, variant === 0 ? 5 : 6, variant === 0 ? 7 : 11 - variant, 0, 0, Math.PI * 2); g.fill();
-  if (variant === 0) { g.fillStyle = 'rgba(255,150,170,0.45)'; for (const x of [68, 124]) { g.beginPath(); g.ellipse(x, 94, 8, 4.5, 0, 0, Math.PI * 2); g.fill(); } }
+  if (variant === 0) { g.fillStyle = 'rgba(170,179,235,0.45)'; for (const x of [68, 124]) { g.beginPath(); g.ellipse(x, 94, 8, 4.5, 0, 0, Math.PI * 2); g.fill(); } }
   return c;
 }
 function blurred(src) {
@@ -643,9 +643,9 @@ function makeWispSprite() {
   c.width = c.height = 64;
   const g = c.getContext('2d');
   const glow = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-  glow.addColorStop(0, '#ffe1a1');
-  glow.addColorStop(0.2, 'rgba(255,179,92,.8)');
-  glow.addColorStop(1, 'rgba(184,145,63,0)');
+  glow.addColorStop(0, '#b3d2ed');
+  glow.addColorStop(0.2, 'rgba(123,168,224,.8)');
+  glow.addColorStop(1, 'rgba(69,127,178,0)');
   g.fillStyle = glow; g.fillRect(0, 0, 64, 64);
   return c;
 }

@@ -257,7 +257,7 @@ const Board = (() => {
       // 標題：象牙白與暖金光暈
       const title = $('boardTitle');
       g.save();
-      g.shadowColor = 'rgba(255,170,90,.55)';
+      g.shadowColor = 'rgba(121,163,224,.55)';
       g.shadowBlur = 24;
       drawText(g, title, 0);
       g.restore();
@@ -267,7 +267,7 @@ const Board = (() => {
 
       // 右下角小小的署名
       g.font = `${Math.max(12, W / 110)}px ${getComputedStyle(document.body).fontFamily}`;
-      g.fillStyle = 'rgba(226,199,138,.7)';
+      g.fillStyle = 'rgba(142,185,222,.7)';
       g.textAlign = 'right';
       g.fillText(`捏嚕嚕 生日快樂 · ${new Date().toISOString().slice(0, 10)}`, W - 16, TH - 14);
 
